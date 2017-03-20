@@ -15,11 +15,13 @@
 	r = remote -v
 	s = status -sb
 	tree = log --oneline --graph --decorate --all --color
-[merge]
-	defaultToUpstream = true
-[user]
-	name = Sean Fern
 [core]
 	pager =
 [gitreview]
 	remote = origin
+[merge]
+	defaultToUpstream = true
+[push]
+	default = simple
+[user]
+	name = Sean Fern
