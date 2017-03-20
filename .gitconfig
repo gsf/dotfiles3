@@ -1,0 +1,25 @@
+[alias]
+	bd = branch -d
+	bD = branch -D
+	b = branch -vva
+	ca = commit --amend
+	ci = commit
+	co = checkout
+	d = diff --minimal
+	ds = diff --minimal --staged
+	f = fetch -p
+	l = log --decorate
+	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --all
+	lp = log -p
+	m = merge
+	r = remote -v
+	s = status -sb
+	tree = log --oneline --graph --decorate --all --color
+[merge]
+	defaultToUpstream = true
+[user]
+	name = Sean Fern
+[core]
+	pager =
+[gitreview]
+	remote = origin
