@@ -1,2 +1,2 @@
 # Attach or create nvim session
-alias v='dtach -A /run/dtach.socket -z nvim'
+alias v='abduco -A 0 nvim'
