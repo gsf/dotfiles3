@@ -27,6 +27,7 @@ set mouse=
 set modeline
 set nostartofline
 set tags=.tags
+set title
 
 " http://stackoverflow.com/questions/607435/why-does-vim-save-files-with-a-extension
 set nobackup
