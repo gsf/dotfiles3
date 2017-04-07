@@ -37,6 +37,9 @@ set nowritebackup
 " Easy most-recent-buffer switching
 nnoremap <Tab> :b#<CR>
 
+" Easy next-window switching
+nnoremap ` <C-w>w
+
 " http://neovim.io/doc/user/nvim_terminal_emulator.html
 tnoremap <Esc> <C-\><C-n>
 
