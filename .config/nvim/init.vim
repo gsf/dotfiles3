@@ -43,7 +43,7 @@ nnoremap <Tab> :b#<CR>
 nnoremap ` <C-w>w
 
 " Easy buffer switching with fzf
-nnoremap <Space> :Bu<CR>
+nnoremap ; :Bu<CR>
 
 " http://neovim.io/doc/user/nvim_terminal_emulator.html
 tnoremap <Esc> <C-\><C-n>
@@ -56,5 +56,5 @@ let loaded_matchparen=1
 
 command -nargs=1 VR vertical resize <args>
 
-" https://github.com/neovim/neovim/issues/6802
-let $COLORTERM = 'gnome-terminal'
+" New terminals start in insert mode
+autocmd TermOpen * startinsert
