@@ -16,7 +16,7 @@
 	s = status -sb
 	tree = log --oneline --graph --decorate --all --color
 [core]
-	pager =
+	pager = less -x1,3
 [gitreview]
 	remote = origin
 [merge]
