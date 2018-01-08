@@ -2,7 +2,7 @@
 # in a neovim terminal it will open files in the existing neovim
 v () {
   if [ -z "$NVIM_LISTEN_ADDRESS" ]; then
-    abduco -A nvim nvim
+    abduco -A ${1-nvim-session} nvim
   else
     nvr "$@"
   fi
