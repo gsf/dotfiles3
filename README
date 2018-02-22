@@ -10,7 +10,6 @@ and pull again:
 
     Untracked working tree file '.bashrc' would be overwritten by merge.
 
-Add the following to ~/.git/config for nicer status output:
+Run this for nicer status output:
 
-    [status]
-      showUntrackedFiles = no
+    git config --add status.showUntrackedFiles no
