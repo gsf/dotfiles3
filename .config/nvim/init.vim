@@ -1,12 +1,12 @@
 call plug#begin('~/.config/nvim/plugged')
 
-Plug 'derekwyatt/vim-scala'
+"Plug 'derekwyatt/vim-scala'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
-Plug 'google/vim-jsonnet'
+"Plug 'google/vim-jsonnet'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --bin' }
 Plug 'junegunn/fzf.vim'
-Plug 'kchmck/vim-coffee-script'
-Plug 'leafgarland/typescript-vim'
+"Plug 'kchmck/vim-coffee-script'
+"Plug 'leafgarland/typescript-vim'
 Plug 'qpkorr/vim-bufkill'
 Plug 'tpope/vim-fugitive'
 Plug 'tpope/vim-vinegar'
@@ -54,7 +54,14 @@ let g:sh_noisk=1
 " Don't highlight matching braces
 let loaded_matchparen=1
 
+" Allows me to :VR80 to resize buffer to 80 cols
 command -nargs=1 VR vertical resize <args>
+
+" Now :WQ will write and close buffer without closing pane
+command WQ :w|:BD
 
 " New terminals start in insert mode
 autocmd TermOpen * startinsert
+
+" Jump into insert when switching back to a terminal
+autocmd BufWinEnter,WinEnter term://* startinsert
