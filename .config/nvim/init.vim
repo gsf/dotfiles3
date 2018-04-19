@@ -1,5 +1,6 @@
 call plug#begin('~/.config/nvim/plugged')
 
+Plug 'christianrondeau/vim-base64'
 "Plug 'derekwyatt/vim-scala'
 Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
 "Plug 'google/vim-jsonnet'
@@ -9,11 +10,13 @@ Plug 'junegunn/fzf.vim'
 "Plug 'leafgarland/typescript-vim'
 Plug 'qpkorr/vim-bufkill'
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-obsession'
 Plug 'tpope/vim-vinegar'
 
 call plug#end()
 
 set expandtab
+set formatoptions-=tc
 set hidden
 set list
 set modeline
@@ -43,10 +46,13 @@ nnoremap <Tab> :b#<CR>
 nnoremap ` <C-w>w
 
 " Easy buffer switching with fzf
-nnoremap ; :Bu<CR>
+nnoremap <Space> :Bu<CR>
 
 " http://neovim.io/doc/user/nvim_terminal_emulator.html
 tnoremap <Esc> <C-\><C-n>
+
+" Semicolon to colon http://vim.wikia.com/wiki/Map_semicolon_to_colon
+map ; :
 
 " Split words at periods in bash files
 let g:sh_noisk=1
