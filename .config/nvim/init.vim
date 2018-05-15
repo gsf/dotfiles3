@@ -48,6 +48,9 @@ nnoremap ` <C-w>w
 " Easy buffer switching with fzf
 nnoremap <Space> :Bu<CR>
 
+" Redo with U instead of Ctrl+R
+nnoremap U <C-r>
+
 " http://neovim.io/doc/user/nvim_terminal_emulator.html
 tnoremap <Esc> <C-\><C-n>
 
