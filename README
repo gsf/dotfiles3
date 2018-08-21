@@ -3,7 +3,7 @@ Setup in new home dir:
     git init
     git remote add origin git@github.com:gsf/dotfiles3.git
     git pull origin master
-    git push -u origin master
+    git push -u
 
 When you pull, if any errors like the following occur, move those files
 and pull again:
