@@ -9,4 +9,4 @@ alias v='nvr -s --remote-wait-silent'
 PS1="\$ "
 
 # For xdg executables
-export PATH=$HOME/.local/bin:$PATH
+export PATH=$HOME/bin:$HOME/.local/bin:$PATH
