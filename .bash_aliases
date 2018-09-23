@@ -1,6 +1,9 @@
+# The standard editor
+export EDITOR='rlfe ed'
+alias e="$EDITOR"
+
 # Install nvr from https://github.com/mhinz/neovim-remote
-export EDITOR="nvr -s --remote-wait-silent"
-alias v=$EDITOR
+alias v='nvr -s --remote-wait-silent'
 
 # Override fancy prompt
 PS1="\$ "
