@@ -15,6 +15,7 @@ Plug 'tpope/vim-vinegar'
 
 call plug#end()
 
+set bg=light
 set expandtab
 set formatoptions-=tc
 set hidden
