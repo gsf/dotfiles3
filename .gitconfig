@@ -12,7 +12,9 @@
 	lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%ci) %C(bold blue)<%an>%Creset' --all
 	lp = log -p
 	m = merge
-	r = remote -v
+	p = push
+	r = rebase
+	rv = remote -v
 	s = status -sb
 	tree = log --oneline --graph --decorate --all --color
 [core]
