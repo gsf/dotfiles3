@@ -1,5 +1,5 @@
 # The standard editor
-export EDITOR='rlfe -h ~/.rlfe_history ed'
+export EDITOR="rlwrap -c -e '' -H ~/.ed_history ed"
 alias e="$EDITOR"
 
 # Install nvr from https://github.com/mhinz/neovim-remote
