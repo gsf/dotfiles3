@@ -26,6 +26,6 @@ dotenv
 
 # Run dotenv on every new directory
 cd () {
- builtin cd $@
- dotenv
+  builtin cd $@
+  dotenv
 }
