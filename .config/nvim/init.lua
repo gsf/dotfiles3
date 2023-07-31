@@ -102,7 +102,7 @@ require('nvim-treesitter.configs').setup {
     -- Using this option may slow down your editor, and you may see some duplicate highlights.
     -- Instead of true it can also be a list of languages
     additional_vim_regex_highlighting = false,
-  },
+  }
 }
 
 local actions = require("telescope.actions")
@@ -111,10 +111,21 @@ require("telescope").setup{
     mappings = {
       i = {
         ["<esc>"] = actions.close
-      },
-    },
+      }
+    }
+  },
+  pickers = {
+    buffers = {
+      sort_lastused = true
+    }
   }
 }
-vim.api.nvim_set_keymap("n", "<space>", "<cmd>lua require('telescope.builtin').buffers()<cr>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<m-8>", "<cmd>lua require('telescope.builtin').grep_string()<cr>", { noremap = true })
-vim.api.nvim_set_keymap("n", "<m-/>", "<cmd>lua require('telescope.builtin').live_grep()<cr>", { noremap = true })
+vim.api.nvim_set_keymap("n", "<space>",
+  "<cmd>lua require('telescope.builtin').buffers()<cr>",
+  { noremap = true })
+vim.api.nvim_set_keymap("n", "<m-8>",
+  "<cmd>lua require('telescope.builtin').grep_string()<cr>",
+  { noremap = true })
+vim.api.nvim_set_keymap("n", "<m-/>",
+  "<cmd>lua require('telescope.builtin').live_grep()<cr>",
+  { noremap = true })
