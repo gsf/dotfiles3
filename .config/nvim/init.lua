@@ -23,8 +23,6 @@ vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.writebackup = false
 
-vim.cmd('colorscheme base16-primer-dark')
-
 -- Easy most-recent-buffer switching
 vim.api.nvim_set_keymap("n", "<tab>", ":b#<cr>", { noremap = true })
 
@@ -81,7 +79,11 @@ require('packer').startup(function()
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
-  use 'RRethy/nvim-base16'
+  use {'RRethy/nvim-base16',
+    config = function()
+      vim.cmd 'colorscheme base16-primer-dark'
+    end
+  }
 
   use 'https://tpope.io/vim/fugitive.git'
   use 'https://tpope.io/vim/repeat.git'
