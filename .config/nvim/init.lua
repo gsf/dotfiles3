@@ -15,7 +15,7 @@ vim.opt.sw = 2
 vim.opt.tags = '.tags'
 vim.opt.title = true
 vim.opt.ts = 2
-vim.opt.tw = 80
+vim.opt.tw = 0
 vim.opt.wim = 'longest,list,full'
 
 -- http://stackoverflow.com/questions/607435/why-does-vim-save-files-with-a-extension
@@ -23,8 +23,13 @@ vim.opt.backup = false
 vim.opt.swapfile = false
 vim.opt.writebackup = false
 
+vim.cmd('colorscheme base16-primer-dark')
+
 -- Easy most-recent-buffer switching
 vim.api.nvim_set_keymap("n", "<tab>", ":b#<cr>", { noremap = true })
+
+-- Skip netrw browsing buffer when switching to last buffer
+vim.g.netrw_altfile = 1
 
 -- Easy next-window switching
 --nnoremap ` <C-w>w
@@ -76,13 +81,15 @@ require('packer').startup(function()
   -- Packer can manage itself
   use 'wbthomason/packer.nvim'
 
-  --use 'RRethy/nvim-base16'
+  use 'RRethy/nvim-base16'
 
-  use 'tpope/vim-vinegar'
+  use 'https://tpope.io/vim/fugitive.git'
+  use 'https://tpope.io/vim/repeat.git'
+  use 'https://tpope.io/vim/vinegar.git'
 
   use {
     'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate'
+    run = ':TSUpdate',
   }
 
   use {
@@ -111,15 +118,20 @@ require("telescope").setup{
     mappings = {
       i = {
         ["<esc>"] = actions.close
-      }
-    }
+      },
+    },
   },
   pickers = {
     buffers = {
-      sort_lastused = true
-    }
-  }
+        ignore_current_buffer = true,
+        sort_lastused = true,
+        sort_mru = true,
+    },
+  },
 }
+vim.api.nvim_set_keymap("n", "<m-p>",
+  "<cmd>lua require('telescope.builtin').find_files()<cr>",
+  { noremap = true })
 vim.api.nvim_set_keymap("n", "<space>",
   "<cmd>lua require('telescope.builtin').buffers()<cr>",
   { noremap = true })
