@@ -1,47 +1,130 @@
-vim.opt.autoindent = false
-vim.opt.bg = 'light'
-vim.opt.expandtab = true
-vim.opt.formatoptions = vim.opt.formatoptions - { 'tc' }
-vim.opt.hidden = true
-vim.opt.hlsearch = false
-vim.opt.joinspaces = false
-vim.opt.list = true
-vim.opt.modeline = true
-vim.opt.mouse = ''
-vim.opt.ruler = true
-vim.opt.showcmd = true
-vim.opt.startofline = false
-vim.opt.sw = 2
-vim.opt.tags = '.tags'
-vim.opt.title = true
-vim.opt.ts = 2
-vim.opt.tw = 0
-vim.opt.wim = 'longest,list,full'
+-- Some inspiration from https://github.com/nvim-lua/kickstart.nvim/blob/master/init.lua
+
+-- Set <space> as the leader and \ as the localleader
+-- See `:help mapleader`
+--  NOTE: Must happen before plugins are required (otherwise wrong leader will be used)
+vim.g.mapleader = ' '
+vim.g.maplocalleader = '\\'
+
+-- [[ Install `lazy.nvim` plugin manager ]]
+--    https://github.com/folke/lazy.nvim
+--    `:help lazy.nvim.txt` for more info
+local lazypath = vim.fn.stdpath 'data' .. '/lazy/lazy.nvim'
+if not vim.loop.fs_stat(lazypath) then
+  vim.fn.system {
+    'git',
+    'clone',
+    '--filter=blob:none',
+    'https://github.com/folke/lazy.nvim.git',
+    '--branch=stable', -- latest stable release
+    lazypath,
+  }
+end
+vim.opt.rtp:prepend(lazypath)
+
+require('lazy').setup({
+  -- NOTE: First, some plugins that don't require any configuration
+
+  -- Git related plugins
+  'tpope/vim-fugitive',
+
+  -- Detect tabstop and shiftwidth automatically
+  'tpope/vim-sleuth',
+
+  'tpope/vim-repeat',
+  'tpope/vim-vinegar',
+
+  {
+    'RRethy/nvim-base16',
+    lazy = false,
+    priority = 1000,
+    config = function()
+      vim.cmd([[colorscheme base16-primer-dark]])
+    end,
+  },
+
+  -- Fuzzy Finder (files, lsp, etc)
+  {
+    'nvim-telescope/telescope.nvim',
+    branch = '0.1.x',
+    dependencies = {
+      'nvim-lua/plenary.nvim',
+      -- Fuzzy Finder Algorithm which requires local dependencies to be built.
+      -- Only load if `make` is available. Make sure you have the system
+      -- requirements installed.
+      {
+        'nvim-telescope/telescope-fzf-native.nvim',
+        -- NOTE: If you are having trouble with this installation,
+        --       refer to the README for telescope-fzf-native for more instructions.
+        build = 'make',
+        cond = function()
+          return vim.fn.executable 'make' == 1
+        end,
+      },
+    },
+  },
+
+  {
+    -- Highlight, edit, and navigate code
+    'nvim-treesitter/nvim-treesitter',
+    dependencies = {
+      'nvim-treesitter/nvim-treesitter-textobjects',
+    },
+    build = ':TSUpdate',
+  },
+})
+
+vim.o.autoindent = false
+vim.o.bg = 'light'
+vim.o.expandtab = true
+--vim.o.formatoptions = vim.opt.formatoptions - { 'tc' }
+vim.o.hidden = true
+vim.o.hlsearch = false
+vim.o.joinspaces = false
+vim.o.list = true
+vim.o.modeline = true
+vim.o.mouse = ''
+vim.o.ruler = true
+vim.o.showcmd = true
+vim.o.startofline = false
+vim.o.sw = 2
+vim.o.tags = '.tags'
+vim.o.title = true
+vim.o.ts = 2
+vim.o.tw = 0
+vim.o.wim = 'longest,list,full'
+
+-- Set completeopt to have a better completion experience
+vim.o.completeopt = 'menuone,noselect'
+
+-- Decrease update time
+vim.o.updatetime = 250
+vim.o.timeoutlen = 300
 
 -- http://stackoverflow.com/questions/607435/why-does-vim-save-files-with-a-extension
-vim.opt.backup = false
-vim.opt.swapfile = false
-vim.opt.writebackup = false
+vim.o.backup = false
+vim.o.swapfile = false
+vim.o.writebackup = false
 
 -- Easy most-recent-buffer switching
-vim.api.nvim_set_keymap("n", "<tab>", ":b#<cr>", { noremap = true })
+vim.keymap.set('n', '<tab>', ':b#<cr>')
 
 -- Skip netrw browsing buffer when switching to last buffer
 vim.g.netrw_altfile = 1
 
 -- Easy next-window switching
 --nnoremap ` <C-w>w
-vim.api.nvim_set_keymap("n", "`", "<c-w><c-p>", { noremap = true })
+vim.keymap.set('n', '`', '<c-w><c-p>')
 
 -- Easy buffer switching with fzf
 --nnoremap <Space> :Bu<CR>
 
 -- Redo with U instead of Ctrl+R
-vim.api.nvim_set_keymap("n", "U", "<c-r>", { noremap = true })
+vim.keymap.set('n', 'U', '<c-r>')
 
 -- http://neovim.io/doc/user/nvim_terminal_emulator.html
 --tnoremap <Esc> <C-\><C-n>
-vim.api.nvim_set_keymap("t", "<esc>", "<c-\\><c-n>", { noremap = true })
+vim.keymap.set('t', '<esc>', '<c-\\><c-n>')
 
 -- Semicolon to colon http://vim.wikia.com/wiki/Map_semicolon_to_colon
 --map ; :
@@ -75,44 +158,32 @@ vim.g.loaded_matchparen = 1
 -- Set Visual highlight to reverse to avoid hiding text
 vim.api.nvim_set_hl(0, 'Visual', {reverse = true})
 
-require('packer').startup(function()
-  -- Packer can manage itself
-  use 'wbthomason/packer.nvim'
+-- [[ Configure Treesitter ]]
+-- See `:help nvim-treesitter`
+-- Defer Treesitter setup after first render to improve startup time of 'nvim {filename}'
+vim.defer_fn(function()
+  require('nvim-treesitter.configs').setup {
+    -- Add languages to be installed here that you want installed for treesitter
+    ensure_installed = { 'c', 'cpp', 'go', 'lua', 'python', 'rust', 'tsx', 'javascript', 'terraform', 'typescript', 'vimdoc', 'vim', 'bash' },
 
-  use {'RRethy/nvim-base16',
-    config = function()
-      vim.cmd 'colorscheme base16-primer-dark'
-    end
+    -- Autoinstall languages that are not installed. Defaults to false (but you can change for yourself!)
+    auto_install = false,
+
+    highlight = { enable = true },
+    indent = { enable = true },
   }
+end, 0)
 
-  use 'https://tpope.io/vim/fugitive.git'
-  use 'https://tpope.io/vim/repeat.git'
-  use 'https://tpope.io/vim/vinegar.git'
-
-  use {
-    'nvim-treesitter/nvim-treesitter',
-    run = ':TSUpdate',
-  }
-
-  use {
-    'nvim-telescope/telescope.nvim',
-    requires = {
-      'nvim-lua/plenary.nvim',
-      { 'nvim-telescope/telescope-fzf-native.nvim', run = 'make' },
-    }
-  }
-end)
-
-require('nvim-treesitter.configs').setup {
-  highlight = {
-    enable = true,
-    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
-    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
-    -- Using this option may slow down your editor, and you may see some duplicate highlights.
-    -- Instead of true it can also be a list of languages
-    additional_vim_regex_highlighting = false,
-  }
-}
+--require('nvim-treesitter.configs').setup {
+--  highlight = {
+--    enable = true,
+--    -- Setting this to true will run `:h syntax` and tree-sitter at the same time.
+--    -- Set this to `true` if you depend on 'syntax' being enabled (like for indentation).
+--    -- Using this option may slow down your editor, and you may see some duplicate highlights.
+--    -- Instead of true it can also be a list of languages
+--    additional_vim_regex_highlighting = false,
+--  }
+--}
 
 local actions = require("telescope.actions")
 require("telescope").setup{
@@ -131,15 +202,7 @@ require("telescope").setup{
     },
   },
 }
-vim.api.nvim_set_keymap("n", "<m-p>",
-  "<cmd>lua require('telescope.builtin').find_files()<cr>",
-  { noremap = true })
-vim.api.nvim_set_keymap("n", "<space>",
-  "<cmd>lua require('telescope.builtin').buffers()<cr>",
-  { noremap = true })
-vim.api.nvim_set_keymap("n", "<m-8>",
-  "<cmd>lua require('telescope.builtin').grep_string()<cr>",
-  { noremap = true })
-vim.api.nvim_set_keymap("n", "<m-/>",
-  "<cmd>lua require('telescope.builtin').live_grep()<cr>",
-  { noremap = true })
+vim.keymap.set('n', '<m-p>', require('telescope.builtin').find_files)
+vim.keymap.set('n', '<space>', require('telescope.builtin').buffers)
+vim.keymap.set('n', '<m-8>', require('telescope.builtin').grep_string)
+vim.keymap.set('n', '<m-/>', require('telescope.builtin').live_grep)
