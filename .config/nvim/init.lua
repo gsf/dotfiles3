@@ -23,7 +23,12 @@ end
 vim.opt.rtp:prepend(lazypath)
 
 require('lazy').setup({
-  -- NOTE: First, some plugins that don't require any configuration
+  -- lazy requires luarocks
+  {
+    "vhyrro/luarocks.nvim",
+    priority = 1000, -- Very high priority is required, luarocks.nvim should run as the first plugin in your config.
+    config = true,
+  },
 
   -- Git related plugins
   'tpope/vim-fugitive',
@@ -31,8 +36,9 @@ require('lazy').setup({
   -- Detect tabstop and shiftwidth automatically
   'tpope/vim-sleuth',
 
+  -- QoL
   'tpope/vim-repeat',
-  'tpope/vim-vinegar',
+  --'tpope/vim-vinegar',
 
   {
     'RRethy/nvim-base16',
@@ -112,6 +118,9 @@ vim.keymap.set('n', '<tab>', ':b#<cr>')
 -- Skip netrw browsing buffer when switching to last buffer
 vim.g.netrw_altfile = 1
 
+-- Hide current and parent directory in netrw
+vim.g.netrw_list_hide = '^\\.\\./$,^\\./$'
+
 -- Easy next-window switching
 --nnoremap ` <C-w>w
 vim.keymap.set('n', '`', '<c-w><c-p>')
@@ -121,6 +130,9 @@ vim.keymap.set('n', '`', '<c-w><c-p>')
 
 -- Redo with U instead of Ctrl+R
 vim.keymap.set('n', 'U', '<c-r>')
+
+-- Map dash to netrw
+vim.keymap.set('n', '-', ':Explore<cr>')
 
 -- http://neovim.io/doc/user/nvim_terminal_emulator.html
 --tnoremap <Esc> <C-\><C-n>
@@ -154,6 +166,9 @@ vim.g.loaded_matchparen = 1
 --  pattern = {"term://*"},
 --  command = "startinsert",
 --})
+
+-- Ignore bad editor configs
+vim.g.editorconfig = false
 
 -- Set Visual highlight to reverse to avoid hiding text
 vim.api.nvim_set_hl(0, 'Visual', {reverse = true})
@@ -199,6 +214,15 @@ require("telescope").setup{
         ignore_current_buffer = true,
         sort_lastused = true,
         sort_mru = true,
+    },
+    find_files = {
+      hidden = true
+    },
+    grep_string = {
+      additional_args = {"--hidden"}
+    },
+    live_grep = {
+      additional_args = {"--hidden"}
     },
   },
 }
