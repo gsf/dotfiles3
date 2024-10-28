@@ -95,6 +95,7 @@ vim.o.showcmd = true
 vim.o.startofline = false
 vim.o.sw = 2
 vim.o.tags = '.tags'
+vim.o.termguicolors = true
 vim.o.title = true
 vim.o.ts = 2
 vim.o.tw = 0
